@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>To-Do List with From & To Time</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .todo-container {
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 450px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .time-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .time-group input, .time-group select {
+      flex: 1;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      border: none;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    li {
+      padding: 10px;
+      background: #f0f0f0;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+
+    .time {
+      display: block;
+      font-size: 0.9em;
+      color: #555;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="todo-container">
+    <h2>To-Do List</h2>
+    <input type="text" id="taskInput" placeholder="Enter task..." />
+
+    <div class="time-group">
+      <input type="number" id="fromHour" min="1" max="12" placeholder="From HH" />
+      <input type="number" id="fromMinute" min="0" max="59" placeholder="MM" />
+      <select id="fromAMPM">
+        <option value="AM">AM</option>
+        <option value="PM">PM</option>
+      </select>
+    </div>
+
+    <div class="time-group">
+      <input type="number" id="toHour" min="1" max="12" placeholder="To HH" />
+      <input type="number" id="toMinute" min="0" max="59" placeholder="MM" />
+      <select id="toAMPM">
+        <option value="AM">AM</option>
+        <option value="PM">PM</option>
+      </select>
+    </div>
+
+    <button onclick="addTask()">Add Task</button>
+
+    <ul id="taskList"></ul>
+  </div>
+
+  <script>
+    function addTask() {
+      const task = document.getElementById("taskInput").value.trim();
+      const fromHour = document.getElementById("fromHour").value;
+      const fromMinute = document.getElementById("fromMinute").value;
+      const fromAMPM = document.getElementById("fromAMPM").value;
+      const toHour = document.getElementById("toHour").value;
+      const toMinute = document.getElementById("toMinute").value;
+      const toAMPM = document.getElementById("toAMPM").value;
+
+      if (!task || !fromHour || !fromMinute || !toHour || !toMinute) {
+        alert("Please enter task and both time ranges.");
+        return;
+      }
+
+      const fromTime = `${fromHour}:${fromMinute.padStart(2, '0')} ${fromAMPM}`;
+      const toTime = `${toHour}:${toMinute.padStart(2, '0')} ${toAMPM}`;
+
+      const listItem = document.createElement("li");
+      listItem.innerHTML = `
+        ${task}
+        <span class="time">From: ${fromTime} &nbsp;&nbsp; To: ${toTime}</span>
+      `;
+
+      document.getElementById("taskList").appendChild(listItem);
+
+      document.getElementById("taskInput").value = "";
+      document.getElementById("fromHour").value = "";
+      document.getElementById("fromMinute").value = "";
+      document.getElementById("toHour").value = "";
+      document.getElementById("toMinute").value = "";
+    }
+  </script>
+
+</body>
+</html>
